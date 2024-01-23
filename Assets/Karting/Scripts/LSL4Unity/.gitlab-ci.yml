@@ -1,0 +1,37 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  DocumentationPath: _site
+  PagesPath: public
+
+stages:
+  - documentation
+  - deploy
+
+default:
+
+# Generate the documentation
+documentation:
+  stage: documentation
+  variables:
+    LogFile: DocumentationLogs.txt
+  script:
+    # Copy and fix README.md links
+    - sed -r 's#/?Documentation/##gi' README.md > Documentation/index.md
+    # Generate documentation
+    - docfx metadata -f Documentation/docfx.json | tee $LogFile
+    - docfx build -f Documentation/docfx.json | tee -a $LogFile
+  artifacts:
+    paths:
+      - $DocumentationPath
+      - $LogFile
+
+# Deploy the documentation online
+pages:
+  stage: deploy
+  script: cp -r $DocumentationPath $PagesPath
+  artifacts:
+    paths:
+      - $PagesPath
+  only:
+    - master
+
