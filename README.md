@@ -44,6 +44,9 @@ Use lane creator unity library : [Asset](https://api.unity.com/v1/oauth2/authori
 
 Path prefab is made to follow the custom track.
 
+### Environment Toggle (Test Only)
+For free mode toggle, remove all environment-related objects, making the game free-roam.
+
 ### Auxiliary
 * Camera control: change to first person PoV (optional), button is C, press again to go back to first person PoV
 * Change of environment
