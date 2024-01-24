@@ -14,7 +14,7 @@ Unity 2021.3.20f1
 ## How to use the build
 Details on how to use the game can be found in this [repository](https://github.com/xEvheMary/MI-BCI-UnityKart.git)
 
-## Modification
+## Modifications
 ### Customized GameManager --> TestManager
 TestManager Prefab has additional objects
 * GameHUD has the optional bar and arrow feedback
@@ -30,6 +30,7 @@ TestManager codes:
 This Object controls the gameplay for each game mode
 * GameObject ObjectiveTest for test mode
 * gameObject ObjectiveCalib for calibration mode
+These are modification from the tutorial's original objective
 
 ### Kart
 Kart prefab has additional objects
