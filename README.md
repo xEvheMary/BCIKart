@@ -26,6 +26,11 @@ TestManager codes:
 * Add wait state
 * Add button to reset position (usually for test scene), button is R
 
+### Objective prefab
+This Object controls the gameplay for each game mode
+* GameObject ObjectiveTest for test mode
+* gameObject ObjectiveCalib for calibration mode
+
 ### Kart
 Kart prefab has additional objects
 * LSL Input converts LSL signal to commands
