@@ -48,5 +48,6 @@ Path prefab is made to follow the custom track.
 * Camera control: change to first person PoV (optional), button is C, press again to go back to first person PoV
 * Change of environment
 * Customized track
+* Customized menu, 2 type of game modes
 
 
