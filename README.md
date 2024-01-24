@@ -30,7 +30,8 @@ TestManager codes:
 This Object controls the gameplay for each game mode
 * GameObject ObjectiveTest for test mode
 * gameObject ObjectiveCalib for calibration mode
-These are modification from the tutorial's original objective
+* 
+These are modifications from the tutorial's original objective
 
 ### Kart
 Kart prefab has additional objects
