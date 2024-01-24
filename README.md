@@ -21,6 +21,7 @@ TestManager Prefab has additional objects
 * Above feedback visibility can be toggled in the in-game menu
 * The in-game menu is also customized (sound and feedback toggle, remove control image toggle)
 * Add a waiting screen (wait for either a space button or an event from OpenVibe)
+
 TestManager codes:
 * Add wait state
 * Add button to reset position (usually for test scene), button is R
