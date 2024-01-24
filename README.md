@@ -6,6 +6,10 @@ The game is a modified version of [Unity's Karting Microgame](https://learn.unit
 
 ![](https://github.com/xEvheMary/MI-BCI-UnityKart/blob/main/UnityBCIKart%20(2).gif)
 
+# Software
+
+Unity 2021.3.20f1
+
 # Details
 
 Details on how to use the game can be found in this [repository](https://github.com/xEvheMary/MI-BCI-UnityKart.git)
