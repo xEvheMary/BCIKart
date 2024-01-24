@@ -32,7 +32,8 @@ Kart prefab has additional objects
 
 #### LSL Communication
 Use this LSL asset from OpenVibe's [gitlab](https://gitlab.inria.fr/openvibe/unity-games/LSL4Unity)
-Example applications can be seen in the same gitlab.
+
+Example applications can be seen in the same GitLab.
 
 LSL Communication Prefab has modifications in the object:
 * Controller script is modified from LSL's controller which sends the event to the Kart LSL script.
