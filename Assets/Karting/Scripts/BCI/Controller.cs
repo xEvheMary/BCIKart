@@ -20,8 +20,9 @@ public class Controller : MonoBehaviour
 	private					int	  endStim = (int) Stimulations.GDF_END_OF_SESSION;
 	private					int	  startStim = (int) Stimulations.BASELINE_STOP;
 	private					int	  baseStartStim = (int) Stimulations.GDF_START_OF_TRIAL;
-    private int					  leftRight = 0;
-    private float                 lrVal = 0f;
+    private int					  leftRight = 1;
+    private float                 value = 1.0f;
+	private float                 lrVal = 0.0f;
 	private bool				  accel = true;
     
 	public ArcadeKart playerKart;
@@ -150,14 +151,42 @@ public class Controller : MonoBehaviour
 		if (!signalInlet.IsSolved()) { signalInlet.ResolveStream(); }
 		if (!stimInlet.IsSolved()) { stimInlet.ResolveStream(); }
 
-		// Float value
+		// Stimulation value
+		if (stimInlet.LastSample != null && stimInlet.LastSample.Length > 0 )  
+        // If sample isn't null, length isn't 0, and the stimulation received is within list
+		{
+			isConnected = true;
+			Debug.Log($"Stimulation received : {stimInlet.LastSample[0]}");
+			if (stimList.Contains(stimInlet.LastSample[0])){
+            	// Do something if receive certain stimulation
+				leftRight = Array.FindIndex(stimList, x => x.Equals(stimInlet.LastSample[0]));  // Convert stim to action
+				lrVal = value * (leftRight-1);
+				// Event trigger based on stim --> for baseline (Unused?)
+				OnCueTrigger?.Invoke(this, new OnCueArgs{
+					cueClass = leftRight
+				});
+				outletMarker.PushSample(new[] { STIMULATION }, LSL.LocalClock() - startTime); // Send Stimulation back with unity time
+			}
+			else if (stimInlet.LastSample[0] == startStim){
+				OnGameStart?.Invoke(this, EventArgs.Empty);
+			}
+			stimInlet.LastSample = stimInlet.LastSample.Skip(1).ToArray();	// The Stimulation stay in the variable if we don't remove the first
+		}
+
+		// Float / signal value
 		if (signalInlet.LastSample != null && signalInlet.LastSample.Length > 0)
         // If sample isn't null && length isn't 0
 		{
             isConnected = true;
             // Get the value from LSL (float)
-			var value = Math.Abs(signalInlet.LastSample[0]);    // Get the value (Absolute)
-            lrVal = value * (leftRight-1);
+			//value = Math.Abs(signalInlet.LastSample[0]);    // Get the value (Absolute)
+			value = signalInlet.LastSample[0];    // Get the value (Absolute)
+			if (stimInlet.LastSample != null && stimInlet.LastSample.Length > 0 ){
+				lrVal = value * (leftRight-1);
+			}
+			else{
+				lrVal = value;
+			}
 			//Debug.Log($"Steer val : {signalInlet.LastSample[0]} --> {lrVal}");
 			OnSignal?.Invoke(this, new OnSignalArgs{
 					signalValue = lrVal
@@ -169,25 +198,6 @@ public class Controller : MonoBehaviour
             isConnected = false;
         }
 
-		// Stimulation value
-		if (stimInlet.LastSample != null && stimInlet.LastSample.Length > 0 )  
-        // If sample isn't null, length isn't 0, and the stimulation received is within list
-		{
-			Debug.Log($"Stimulation received : {stimInlet.LastSample[0]}");
-			if (stimList.Contains(stimInlet.LastSample[0])){
-            	// Do something if receive certain stimulation
-				leftRight = Array.FindIndex(stimList, x => x.Equals(stimInlet.LastSample[0]));  // Convert stim to action
-				stimInlet.LastSample = stimInlet.LastSample.Skip(1).ToArray();	// The Stimulation stay in the variable if we don't remove the first
-				outletMarker.PushSample(new[] { STIMULATION }, LSL.LocalClock() - startTime); // Send Stimulation back with unity time
-				// Event trigger based on stim --> for baseline
-				OnCueTrigger?.Invoke(this, new OnCueArgs{
-					cueClass = leftRight
-				});
-			}
-			else if (stimInlet.LastSample[0] == startStim){
-				OnGameStart?.Invoke(this, EventArgs.Empty);
-			}
-		}
 	}
 
 	public bool GetConnectedFlag(){
@@ -195,6 +205,7 @@ public class Controller : MonoBehaviour
     }
 
     public float GetSteerVal(){
+		
         return lrVal;
     }
 
